@@ -86,13 +86,18 @@
             background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
+
+        /* Smooth Scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white antialiased">
 
     <!-- Audio Element (Hidden) -->
     <audio id="bg-music" loop>
-        <source src="Gaudeamus Igitur Instrumental.mp3" type="audio/mp3">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_102f650564.mp3?filename=epic-cinematic-trailer-110778.mp3" type="audio/mp3">
         Browser Anda tidak mendukung elemen audio.
     </audio>
 
@@ -143,7 +148,7 @@
 
             <div class="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1200">
                 
-                <!-- LOGO HERO SECTION ADDED HERE -->
+                <!-- LOGO HERO SECTION -->
                 <div class="flex justify-center mb-6">
                     <img src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" 
                          alt="Logo Universitas Teknokrat" 
@@ -166,8 +171,8 @@
                 </div>
             </div>
             
-            <!-- Scroll Down Indicator -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-yellow-500">
+            <!-- Scroll Down Indicator with ID and onclick event -->
+            <div id="scroll-down-btn" onclick="scrollToDetails()" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-yellow-500 cursor-pointer z-20">
                 <i class="fas fa-chevron-down text-2xl"></i>
             </div>
         </section>
@@ -183,8 +188,8 @@
             </div>
         </section>
 
-        <!-- Details Section -->
-        <section class="py-20 px-4 bg-[#111] relative overflow-hidden">
+        <!-- Details Section with ID for scrolling target -->
+        <section id="detail-acara" class="py-20 px-4 bg-[#111] relative overflow-hidden">
             <!-- Decorative Elements -->
             <div class="absolute top-0 left-0 w-64 h-64 bg-yellow-600/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
             <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-900/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
@@ -205,7 +210,7 @@
                             </div>
                             <div>
                                 <h4 class="text-white font-bold font-cinzel">Hari & Tanggal</h4>
-                                <p class="text-gray-400">Senin, 29 Juli 2026</p>
+                                <p class="text-gray-400">Senin, 29 Juni 2026</p>
                             </div>
                         </div>
 
@@ -282,14 +287,14 @@
                 <p class="text-gray-500 text-sm mt-2">Excellence in Technology & Business</p>
             </div>
             <div class="flex justify-center gap-6 mb-8">
-                <a href="https://www.instagram.com/accounts/login/?next=%2Fteknokrat_official%2F&source=omni_redirect&hl=en" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="https://www.facebook.com/kuliahditeknokrat/?locale=id_ID" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="https://www.youtube.com/@UNIVERSITASTEKNOKRATINDONESIA" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube text-xl"></i></a>
                 <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fas fa-globe text-xl"></i></a>
             </div>
             <p class="text-gray-600 text-xs">
                 &copy; 2026 Universitas Teknokrat Indonesia. All Rights Reserved.<br>
-                Created with by Kalypsoo
+                Created with ❤️ by Frontend Dev
             </p>
         </footer>
 
@@ -342,9 +347,17 @@
             isPlaying = !isPlaying;
         }
 
+        // NEW FUNCTION: Scroll to Details Section
+        function scrollToDetails() {
+            const detailsSection = document.getElementById('detail-acara');
+            if (detailsSection) {
+                detailsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         // Countdown Timer Logic
         function startCountdown() {
-            const targetDate = new Date("2026-07-29T09:00:00").getTime();
+            const targetDate = new Date("2026-06-29T09:00:00").getTime();
 
             const timerInterval = setInterval(function() {
                 const now = new Date().getTime();
@@ -364,10 +377,10 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById('days').innerText = days < 10 ? "29" + days : days;
-                document.getElementById('hours').innerText = hours < 10 ? "11" + hours : hours;
-                document.getElementById('minutes').innerText = minutes < 10 ? "30" + minutes : minutes;
-                document.getElementById('seconds').innerText = seconds < 10 ? "50" + seconds : seconds;
+                document.getElementById('days').innerText = days < 10 ? "0" + days : days;
+                document.getElementById('hours').innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById('minutes').innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById('seconds').innerText = seconds < 10 ? "0" + seconds : seconds;
             }, 1000);
         }
 
