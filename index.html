@@ -81,10 +81,10 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Logo Filter to make it look golden/white on dark bg if needed, 
-           but original logo is colored so we keep it clean with a white bg circle or just drop shadow */
-        .logo-container {
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+        /* Logo Styling Helper */
+        .logo-circle {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
     </style>
 </head>
@@ -105,18 +105,18 @@
 
     <!-- OPENING OVERLAY (Cover) -->
     <div id="opening-overlay" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center text-center px-4 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
-        <div class="absolute inset-0 bg-black/80"></div> <!-- Darker overlay for better contrast -->
+        <div class="absolute inset-0 bg-black/80"></div>
         
         <div class="relative z-10 max-w-md mx-auto space-y-6" data-aos="zoom-in" data-aos-duration="1500">
             <div class="border border-yellow-600/50 p-8 rounded-xl glass-card shadow-2xl shadow-yellow-900/20">
                 
-                <!-- LOGO SECTION ADDED HERE -->
-                <div class="flex justify-center mb-6 logo-container">
+                <!-- LOGO COVER SECTION -->
+                <div class="flex justify-center mb-6">
                     <img src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" 
                          alt="Logo Universitas Teknokrat" 
-                         class="h-24 w-auto object-contain bg-white/90 rounded-full p-2 shadow-lg">
+                         class="h-20 w-auto object-contain logo-circle rounded-full p-2">
                 </div>
-                <!-- END LOGO SECTION -->
+                <!-- END LOGO COVER SECTION -->
 
                 <h3 class="text-yellow-500 tracking-[0.3em] text-sm uppercase mb-4 font-semibold">The Invitation</h3>
                 <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">Wisuda Teknokrat</h1>
@@ -142,7 +142,16 @@
             </div>
 
             <div class="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1200">
-                <p class="text-yellow-500 tracking-[0.2em] uppercase text-sm mb-4">Universitas Teknokrat Indonesia</p>
+                
+                <!-- LOGO HERO SECTION ADDED HERE -->
+                <div class="flex justify-center mb-6">
+                    <img src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" 
+                         alt="Logo Universitas Teknokrat" 
+                         class="h-24 w-auto object-contain logo-circle rounded-full p-2">
+                </div>
+                <!-- END LOGO HERO SECTION -->
+
+                <p class="text-yellow-500 tracking-[0.2em] uppercase text-sm mb-4 font-semibold">Universitas Teknokrat Indonesia</p>
                 <h1 class="font-cinzel text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-lg">
                     WISUDA <br> <span class="text-gold-gradient">2026</span>
                 </h1>
@@ -196,7 +205,7 @@
                             </div>
                             <div>
                                 <h4 class="text-white font-bold font-cinzel">Hari & Tanggal</h4>
-                                <p class="text-gray-400">Senin, 29 Juli 2026</p>
+                                <p class="text-gray-400">Senin, 29 Juni 2026</p>
                             </div>
                         </div>
 
@@ -280,7 +289,7 @@
             </div>
             <p class="text-gray-600 text-xs">
                 &copy; 2026 Universitas Teknokrat Indonesia. All Rights Reserved.<br>
-                Created with by Kalypsoo
+                Created with ❤️ by Frontend Dev
             </p>
         </footer>
 
@@ -335,7 +344,7 @@
 
         // Countdown Timer Logic
         function startCountdown() {
-            const targetDate = new Date("2026-07-29T09:00:00").getTime();
+            const targetDate = new Date("2026-06-29T09:00:00").getTime();
 
             const timerInterval = setInterval(function() {
                 const now = new Date().getTime();
