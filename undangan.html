@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Wisuda Teknokrat Indonesia 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+        
+        .font-script {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37; 
+            border-radius: 4px;
+        }
+
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Overlay for Opening */
+        #opening-overlay {
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        
+        .hidden-overlay {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Music Button Pulse */
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+        }
+        .music-btn-pulse {
+            animation: pulse-gold 2s infinite;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Logo Filter to make it look golden/white on dark bg if needed, 
+           but original logo is colored so we keep it clean with a white bg circle or just drop shadow */
+        .logo-container {
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white antialiased">
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_102f650564.mp3?filename=epic-cinematic-trailer-110778.mp3" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- Floating Music Control -->
+    <div id="music-control" class="fixed bottom-6 right-6 z-50 hidden">
+        <button onclick="toggleMusic()" class="w-12 h-12 rounded-full bg-yellow-600 text-white flex items-center justify-center shadow-lg music-btn-pulse hover:bg-yellow-500 transition-colors">
+            <i id="music-icon" class="fas fa-pause"></i>
+        </button>
+    </div>
+
+    <!-- OPENING OVERLAY (Cover) -->
+    <div id="opening-overlay" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center text-center px-4 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center">
+        <div class="absolute inset-0 bg-black/80"></div> <!-- Darker overlay for better contrast -->
+        
+        <div class="relative z-10 max-w-md mx-auto space-y-6" data-aos="zoom-in" data-aos-duration="1500">
+            <div class="border border-yellow-600/50 p-8 rounded-xl glass-card shadow-2xl shadow-yellow-900/20">
+                
+                <!-- LOGO SECTION ADDED HERE -->
+                <div class="flex justify-center mb-6 logo-container">
+                    <img src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" 
+                         alt="Logo Universitas Teknokrat" 
+                         class="h-24 w-auto object-contain bg-white/90 rounded-full p-2 shadow-lg">
+                </div>
+                <!-- END LOGO SECTION -->
+
+                <h3 class="text-yellow-500 tracking-[0.3em] text-sm uppercase mb-4 font-semibold">The Invitation</h3>
+                <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">Wisuda Teknokrat</h1>
+                <h2 class="font-cinzel text-xl text-yellow-500 mb-6">Periode 2026</h2>
+                
+                <p class="text-gray-300 text-sm mb-8 italic font-light">"Kepada Yth. Bapak/Ibu/Saudara/i"</p>
+                
+                <button onclick="openInvitation()" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded border border-yellow-600 text-yellow-500 shadow-lg transition-all duration-300 hover:bg-yellow-600 hover:text-white hover:shadow-yellow-500/50">
+                    <span class="relative font-cinzel font-bold tracking-widest text-sm">BUKA UNDANGAN</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" class="relative min-h-screen pb-20">
+        
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop" alt="Graduation Background" class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/50 to-gray-900"></div>
+            </div>
+
+            <div class="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1200">
+                <p class="text-yellow-500 tracking-[0.2em] uppercase text-sm mb-4">Universitas Teknokrat Indonesia</p>
+                <h1 class="font-cinzel text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-lg">
+                    WISUDA <br> <span class="text-gold-gradient">2026</span>
+                </h1>
+                <div class="w-24 h-1 bg-yellow-600 mx-auto my-6"></div>
+                <p class="text-xl md:text-2xl font-light text-gray-200 mb-8">
+                    Merayakan Prestasi, Mengukir Sejarah
+                </p>
+                <div class="flex justify-center gap-4 text-sm font-semibold tracking-wider">
+                    <div class="px-4 py-2 border border-white/20 rounded bg-black/30 backdrop-blur-sm">
+                        SENIN, 29 JUNI 2026
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Down Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-yellow-500">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section class="py-20 px-4 bg-gray-900 relative">
+            <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+                <i class="fas fa-quote-left text-4xl text-yellow-700 mb-6 opacity-50"></i>
+                <p class="font-script text-3xl md:text-4xl text-gray-300 leading-relaxed mb-6">
+                    "Pendidikan adalah senjata paling ampuh yang bisa kamu gunakan untuk mengubah dunia."
+                </p>
+                <p class="text-yellow-600 font-cinzel tracking-widest text-sm">- NELSON MANDELA -</p>
+            </div>
+        </section>
+
+        <!-- Details Section -->
+        <section class="py-20 px-4 bg-[#111] relative overflow-hidden">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-yellow-600/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-900/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                
+                <!-- Text Content -->
+                <div data-aos="fade-right">
+                    <h2 class="font-cinzel text-3xl font-bold text-white mb-6 border-l-4 border-yellow-600 pl-4">Detail Acara</h2>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Dengan memohon rahmat dan ridho Tuhan Yang Maha Esa, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara wisuda periode 2026 Universitas Teknokrat Indonesia.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-900/30 flex items-center justify-center text-yellow-500 shrink-0">
+                                <i class="far fa-calendar-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold font-cinzel">Hari & Tanggal</h4>
+                                <p class="text-gray-400">Senin, 29 Juli 2026</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-900/30 flex items-center justify-center text-yellow-500 shrink-0">
+                                <i class="far fa-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold font-cinzel">Waktu</h4>
+                                <p class="text-gray-400">09:00 WIB - Selesai</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-yellow-900/30 flex items-center justify-center text-yellow-500 shrink-0">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold font-cinzel">Lokasi</h4>
+                                <p class="text-gray-400">Auditorium Utama Universitas Teknokrat Indonesia</p>
+                                <p class="text-xs text-gray-500 mt-1">Jl. Zainal Abidin Pagaralam No.1, Kota Bandar Lampung</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image/Card Visual -->
+                <div class="relative group" data-aos="fade-left">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-yellow-900 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative bg-gray-800 rounded-lg p-1">
+                        <img src="https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?q=80&w=2070&auto=format&fit=crop" alt="Campus Atmosphere" class="rounded-lg w-full h-80 object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                        <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-md p-4 rounded border-l-2 border-yellow-500">
+                            <p class="text-white font-cinzel text-sm">Tema: "Inovasi Tanpa Batas untuk Masa Depan Gemilang"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP / Countdown Section -->
+        <section class="py-20 px-4 bg-gray-900 text-center">
+            <div class="max-w-4xl mx-auto" data-aos="zoom-in">
+                <h2 class="font-cinzel text-3xl font-bold text-white mb-10">Hitung Mundur</h2>
+                
+                <div class="grid grid-cols-4 gap-4 max-w-lg mx-auto mb-12">
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                        <span id="days" class="block text-3xl font-bold text-yellow-500">00</span>
+                        <span class="text-xs text-gray-400 uppercase">Hari</span>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                        <span id="hours" class="block text-3xl font-bold text-yellow-500">00</span>
+                        <span class="text-xs text-gray-400 uppercase">Jam</span>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                        <span id="minutes" class="block text-3xl font-bold text-yellow-500">00</span>
+                        <span class="text-xs text-gray-400 uppercase">Menit</span>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                        <span id="seconds" class="block text-3xl font-bold text-yellow-500">00</span>
+                        <span class="text-xs text-gray-400 uppercase">Detik</span>
+                    </div>
+                </div>
+
+                <a href="#" class="inline-block px-8 py-4 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-full transition-all transform hover:scale-105 shadow-lg shadow-yellow-900/50">
+                    <i class="fas fa-envelope-open-text mr-2"></i> Konfirmasi Kehadiran
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-black py-10 text-center border-t border-gray-800">
+            <div class="mb-6">
+                <h2 class="font-cinzel text-2xl text-white">Teknokrat Indonesia</h2>
+                <p class="text-gray-500 text-sm mt-2">Excellence in Technology & Business</p>
+            </div>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://www.instagram.com/accounts/login/?next=%2Fteknokrat_official%2F&source=omni_redirect&hl=en" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="https://www.facebook.com/kuliahditeknokrat/?locale=id_ID" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="https://www.youtube.com/@UNIVERSITASTEKNOKRATINDONESIA" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fas fa-globe text-xl"></i></a>
+            </div>
+            <p class="text-gray-600 text-xs">
+                &copy; 2026 Universitas Teknokrat Indonesia. All Rights Reserved.<br>
+                Created with by Kalypsoo
+            </p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Initialize AOS Animation
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 1000,
+        });
+
+        // Audio Logic
+        const audio = document.getElementById('bg-music');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        function openInvitation() {
+            const overlay = document.getElementById('opening-overlay');
+            
+            // Play Audio
+            audio.volume = 0.5; 
+            audio.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.remove('hidden');
+            }).catch(error => {
+                console.log("Autoplay prevented:", error);
+                musicControl.classList.remove('hidden');
+            });
+
+            // Hide Overlay
+            overlay.classList.add('hidden-overlay');
+            document.body.style.overflowY = 'auto';
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.classList.remove('fa-pause');
+                musicIcon.classList.add('fa-play');
+                musicControl.querySelector('button').classList.remove('music-btn-pulse');
+            } else {
+                audio.play();
+                musicIcon.classList.remove('fa-play');
+                musicIcon.classList.add('fa-pause');
+                musicControl.querySelector('button').classList.add('music-btn-pulse');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Countdown Timer Logic
+        function startCountdown() {
+            const targetDate = new Date("2026-07-29T09:00:00").getTime();
+
+            const timerInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('days').innerText = "00";
+                    document.getElementById('hours').innerText = "00";
+                    document.getElementById('minutes').innerText = "00";
+                    document.getElementById('seconds').innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = days < 10 ? "29" + days : days;
+                document.getElementById('hours').innerText = hours < 10 ? "11" + hours : hours;
+                document.getElementById('minutes').innerText = minutes < 10 ? "33" + minutes : minutes;
+                document.getElementById('seconds').innerText = seconds < 10 ? "50" + seconds : seconds;
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', startCountdown);
+
+    </script>
+</body>
+</html>
+
