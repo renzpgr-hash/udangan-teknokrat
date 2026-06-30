@@ -1,4 +1,32 @@
-<!DOCTYPE html>
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                body {
+                  background-color: white; /* Ensure the iframe has a white background */
+                }
+
+                /* SEBELUM (menyebabkan bleeding) */
+.snap-section-last {
+    height: auto;           /* Hanya setinggi konten */
+    overflow: visible;      /* Konten bisa keluar */
+}
+
+/* SESUDAH (menutupi penuh) */
+.snap-section-last {
+    min-height: 100vh;      /* Minimal setinggi 1 layar penuh */
+    height: auto;           /* Bisa lebih panjang jika perlu */
+    overflow: hidden;       /* Tidak ada konten yang keluar */
+}
+
+
+              </style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -66,16 +94,17 @@
             padding: 4rem 0;
         }
 
-        /* Section TERAKHIR - hanya auto height, TANPA min-height */
+        /* FIX: Section Live Streaming - min-height 100vh agar background menutupi penuh */
         .snap-section-last {
             scroll-snap-align: start;
+            min-height: 100vh;
             height: auto;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: visible;
-            padding: 6rem 0 4rem 0;
+            overflow: hidden;
+            padding: 4rem 0;
         }
 
         /* Background Image */
@@ -382,7 +411,7 @@
             }
 
             .snap-section-last {
-                padding: 4rem 0 3rem 0;
+                padding: 3rem 0;
             }
 
             .event-card {
@@ -543,7 +572,7 @@
             </div>
         </section>
 
-        <!-- LIVE STREAMING SECTION -->
+        <!-- LIVE STREAMING SECTION - FIXED: min-height 100vh agar background menutupi penuh -->
         <section class="snap-section-last">
             <div class="bg-image"></div>
             <div class="bg-overlay"></div>
@@ -713,3 +742,11 @@
 </body>
 </html>
 
+
+
+              <script>
+                              
+              </script>
+                        </body>
+                        </html>
+                    
