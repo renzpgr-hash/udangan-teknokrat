@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Wisuda Teknokrat Indonesia 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Scroll Snap Container */
+        .snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* Section normal - fixed height 100vh */
+        .snap-section {
+            scroll-snap-align: start;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Section dengan konten PANJANG (Acara) - auto height dengan min 100vh */
+        .snap-section-auto {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            height: auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            padding: 4rem 0;
+        }
+
+        /* Section TERAKHIR - hanya auto height, TANPA min-height */
+        .snap-section-last {
+            scroll-snap-align: start;
+            height: auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            padding: 6rem 0 4rem 0;
+        }
+
+        /* Background Image */
+        .bg-image {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+
+        /* OVERLAY: Hitam + Maroon untuk keeleganan */
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, 
+                rgba(10, 10, 10, 0.85) 0%, 
+                rgba(50, 8, 8, 0.75) 50%, 
+                rgba(10, 10, 10, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cover Section - Hitam dengan aksen maroon */
+        #cover {
+            background: linear-gradient(to bottom, 
+                rgba(10, 10, 10, 0.95) 0%, 
+                rgba(30, 5, 5, 0.9) 100%);
+        }
+
+        /* TOMBOL BUKA - HITAM DENGAN BORDER KUNING & TEKS KUNING */
+        .open-btn {
+            background: #0a0a0a;
+            color: #FFD700;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(122, 16, 16, 0.3);
+        }
+
+        .open-btn:hover {
+            background: #7a1010;
+            color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(122, 16, 16, 0.5);
+        }
+
+        /* Countdown Boxes - HITAM dengan border maroon & kuning */
+        .countdown-box {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #7a1010;
+            padding: 1rem;
+            min-width: 70px;
+            box-shadow: inset 0 0 20px rgba(122, 16, 16, 0.2);
+        }
+
+        .countdown-box .text-2xl,
+        .countdown-box .text-3xl {
+            color: #FFD700;
+        }
+
+        /* Event Card - HITAM dengan aksen maroon & kuning */
+        .event-card {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #7a1010;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 0, 0.1);
+        }
+
+        .date-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .date-display .month,
+        .date-display .year {
+            font-size: 0.875rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: #FFD700;
+        }
+
+        .date-display .day {
+            font-size: 3rem;
+            font-weight: 600;
+            font-family: 'Cormorant Garamond', serif;
+            color: #FFD700;
+        }
+
+        .date-display .weekday {
+            font-size: 0.875rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+
+        .date-divider {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #7a1010, transparent);
+        }
+
+        /* Action Buttons - HITAM dengan border maroon & teks kuning */
+        .action-btn {
+            background: #0a0a0a;
+            color: #FFD700;
+            padding: 0.6rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+            border: 1px solid #7a1010;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn:hover {
+            background: #7a1010;
+            color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(122, 16, 16, 0.5);
+        }
+
+        /* QR Code Button - HITAM dengan aksen maroon */
+        .qr-btn {
+            position: fixed;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #0a0a0a;
+            color: #FFD700;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            z-index: 50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #7a1010;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .qr-btn:hover {
+            background: #7a1010;
+            color: #FFD700;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Back to Top Button - HITAM dengan aksen maroon */
+        .back-to-top {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            background: #0a0a0a;
+            color: #FFD700;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid #7a1010;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            background: #7a1010;
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        /* Music Button - HITAM dengan aksen maroon */
+        .music-btn {
+            position: fixed;
+            left: 1rem;
+            bottom: 1rem;
+            background: #0a0a0a;
+            color: #FFD700;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #7a1010;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .music-btn:hover {
+            background: #7a1010;
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(122, 16, 16, 0); }
+        }
+
+        /* Logo */
+        .logo-circle {
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 50%;
+            padding: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 0 2px #7a1010;
+            border: 2px solid #FFD700;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        /* Divider - gradient maroon ke kuning */
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, #7a1010, #FFD700, #7a1010);
+            margin: 1rem auto;
+        }
+
+        /* Arabic Text */
+        .arabic-text {
+            font-family: 'Traditional Arabic', serif;
+            font-size: 1.5rem;
+            line-height: 2;
+            direction: rtl;
+            color: #FFD700;
+            text-shadow: 0 2px 10px rgba(122, 16, 16, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .content {
+                padding: 1rem;
+            }
+            
+            .date-display .day {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-box {
+                min-width: 60px;
+                padding: 0.75rem;
+            }
+
+            .snap-section-auto {
+                padding: 3rem 0;
+            }
+
+            .snap-section-last {
+                padding: 4rem 0 3rem 0;
+            }
+
+            .event-card {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="Gaudeamus Igitur Instrumental.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- QR Code Button -->
+    <div class="qr-btn" onclick="showQR()">
+        <i class="fas fa-qrcode mr-1"></i> QR CODE
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Music Button -->
+    <div class="music-btn" id="musicBtn" onclick="toggleMusic()" style="display: none;">
+        <i class="fas fa-music" id="musicIcon"></i>
+    </div>
+
+    <!-- Main Container -->
+    <div class="snap-container" id="mainContainer">
+
+        <!-- COVER SECTION -->
+        <section class="snap-section" id="cover">
+            <div class="bg-image" style="opacity: 0.3;"></div>
+            <div class="bg-overlay"></div>
+            
+            <div class="content fade-in">
+                <p class="text-sm font-light tracking-widest mb-4 opacity-80" style="color: #FFD700;">Graduation Invitation</p>
+                <h1 class="font-serif text-5xl md:text-6xl font-semibold mb-2">Wisuda Teknokrat</h1>
+                <p class="text-lg font-light mb-8 opacity-90" style="color: #FFD700;">Periode 2026</p>
+                
+                <div class="mb-8">
+                    <p class="text-sm opacity-70 mb-2">Kepada Yth.</p>
+                    <p class="font-serif text-3xl md:text-4xl font-semibold" id="guestName">Bapak/Ibu/Saudara/i</p>
+                </div>
+
+                <button onclick="openInvitation()" class="open-btn">
+                    <i class="far fa-envelope"></i>
+                    Buka Undangan
+                </button>
+            </div>
+        </section>
+
+        <!-- QUOTE SECTION -->
+        <section class="snap-section">
+            <div class="bg-image"></div>
+            <div class="bg-overlay"></div>
+            
+            <div class="content fade-in">
+                <div class="logo-circle inline-block mb-6">
+                    <img src="https://teknokrat.ac.id/wp-content/uploads/2022/04/UNIVERSITASTEKNOKRAT-e1647677057867-768x774-min.png" 
+                         alt="Logo" class="h-16 w-auto">
+                </div>
+                
+                <p class="arabic-text mb-4 opacity-90">
+                    وَقُلْ رَبِّ زِدْنِي عِلْمًا
+                </p>
+                
+                <p class="text-lg font-light italic mb-2 opacity-90">
+                    "Dan katakanlah: Ya Tuhanku, tambahkanlah kepadaku ilmu pengetahuan."
+                </p>
+                
+                <div class="section-divider"></div>
+                
+                <p class="text-sm font-light tracking-widest opacity-70" style="color: #FFD700;">QS. THAHA: 114</p>
+            </div>
+        </section>
+
+        <!-- COUNTDOWN SECTION -->
+        <section class="snap-section">
+            <div class="bg-image"></div>
+            <div class="bg-overlay"></div>
+            
+            <div class="content fade-in">
+                <p class="text-sm font-light tracking-widest mb-2 opacity-70" style="color: #FFD700;">Universitas Teknokrat Indonesia</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-2">Wisuda 2026</h2>
+                
+                <div class="section-divider my-6"></div>
+                
+                <p class="text-lg font-light mb-8 opacity-90">Merayakan Prestasi, Mengukir Sejarah</p>
+
+                <div class="flex justify-center gap-3 mb-8">
+                    <div class="countdown-box text-center">
+                        <div class="text-2xl md:text-3xl font-semibold" id="days">00</div>
+                        <div class="text-xs opacity-70 mt-1">Hari</div>
+                    </div>
+                    <div class="countdown-box text-center">
+                        <div class="text-2xl md:text-3xl font-semibold" id="hours">00</div>
+                        <div class="text-xs opacity-70 mt-1">Jam</div>
+                    </div>
+                    <div class="countdown-box text-center">
+                        <div class="text-2xl md:text-3xl font-semibold" id="minutes">00</div>
+                        <div class="text-xs opacity-70 mt-1">Menit</div>
+                    </div>
+                    <div class="countdown-box text-center">
+                        <div class="text-2xl md:text-3xl font-semibold" id="seconds">00</div>
+                        <div class="text-xs opacity-70 mt-1">Detik</div>
+                    </div>
+                </div>
+
+                <p class="text-sm font-light opacity-70" style="color: #FFD700;">Senin, 29 Juni 2026</p>
+            </div>
+        </section>
+
+        <!-- EVENT SECTION -->
+        <section class="snap-section-auto">
+            <div class="bg-image"></div>
+            <div class="bg-overlay"></div>
+            
+            <div class="content fade-in">
+                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-2" style="color: #FFD700;">Acara</h2>
+                <p class="text-sm font-light opacity-70 mb-8">Kami mengundang Anda untuk menghadiri acara wisuda:</p>
+
+                <!-- Upacara Wisuda -->
+                <div class="event-card">
+                    <h3 class="font-serif text-2xl md:text-3xl font-semibold mb-4" style="color: #FFD700;">Upacara Wisuda</h3>
+                    
+                    <div class="date-display">
+                        <div class="text-center">
+                            <div class="month">JUN</div>
+                        </div>
+                        <div class="date-divider"></div>
+                        <div class="text-center">
+                            <div class="weekday">Senin</div>
+                            <div class="day">29</div>
+                        </div>
+                        <div class="date-divider"></div>
+                        <div class="text-center">
+                            <div class="year">2026</div>
+                        </div>
+                    </div>
+
+                    <p class="text-sm opacity-80 mb-1">09:00 - 12:00 WIB</p>
+                    <p class="font-semibold mb-1">Auditorium Utama</p>
+                    <p class="text-xs opacity-70 mb-4">Universitas Teknokrat Indonesia<br>Jl. Zainal Abidin Pagaralam No.1, Bandar Lampung</p>
+
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <button onclick="saveToCalendar()" class="action-btn">
+                            <i class="far fa-calendar"></i> Save The Date
+                        </button>
+                        <button onclick="openMap()" class="action-btn">
+                            <i class="fas fa-map-marker-alt"></i> Map Navigation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIVE STREAMING SECTION -->
+        <section class="snap-section-last">
+            <div class="bg-image"></div>
+            <div class="bg-overlay"></div>
+            
+            <div class="content fade-in">
+                <h2 class="font-serif text-4xl md:text-5xl font-semibold mb-4" style="color: #FFD700;">Live Streaming</h2>
+                
+                <p class="text-sm font-light opacity-80 mb-8 leading-relaxed">
+                    Acara ini akan disiarkan secara langsung melalui media internet. 
+                    Silakan klik tombol di bawah untuk membuka saluran live streaming.
+                </p>
+
+                <button onclick="openLiveStream()" class="action-btn" style="padding: 1rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-broadcast-tower"></i> Live Streaming
+                </button>
+
+                <div class="mt-12 pt-8 border-t" style="border-color: rgba(122, 16, 16, 0.5);">
+                    <p class="text-xs opacity-60 mb-2">Terima kasih atas perhatian dan doa restu Anda</p>
+                    <p class="font-serif text-lg opacity-90" style="color: #FFD700;">Wassalamu'alaikum Wr. Wb.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Get guest name from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to') || 'Bapak/Ibu/Saudara/i';
+        document.getElementById('guestName').textContent = guestName;
+
+        // Audio Control
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        function openInvitation() {
+            audio.volume = 0.5;
+            audio.play().then(() => {
+                isPlaying = true;
+                musicBtn.style.display = 'flex';
+                musicBtn.classList.add('playing');
+            }).catch(error => {
+                console.log('Autoplay prevented:', error);
+                musicBtn.style.display = 'flex';
+            });
+
+            const container = document.getElementById('mainContainer');
+            const sections = container.querySelectorAll('.snap-section, .snap-section-auto, .snap-section-last');
+            if (sections[1]) {
+                sections[1].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.classList.remove('fa-music');
+                musicIcon.classList.add('fa-volume-mute');
+                musicBtn.classList.remove('playing');
+            } else {
+                audio.play();
+                musicIcon.classList.remove('fa-volume-mute');
+                musicIcon.classList.add('fa-music');
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            threshold: 0.2,
+            root: document.getElementById('mainContainer')
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Back to Top Button
+        const container = document.getElementById('mainContainer');
+        const backToTop = document.getElementById('backToTop');
+
+        container.addEventListener('scroll', () => {
+            if (container.scrollTop > window.innerHeight) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            container.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Countdown Timer
+        function startCountdown() {
+            const targetDate = new Date('2026-06-29T09:00:00').getTime();
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days < 10 ? '0' + days : days;
+                document.getElementById('hours').textContent = hours < 10 ? '0' + hours : hours;
+                document.getElementById('minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+            }, 1000);
+        }
+
+        startCountdown();
+
+        function saveToCalendar() {
+            const event = {
+                title: 'Wisuda Teknokrat 2026',
+                start: '20260629T090000',
+                end: '20260629T120000',
+                location: 'Auditorium Utama, Universitas Teknokrat Indonesia'
+            };
+
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start}/${event.end}&location=${encodeURIComponent(event.location)}`;
+            
+            window.open(googleCalendarUrl, '_blank');
+        }
+
+        function openMap() {
+            const address = 'Universitas Teknokrat Indonesia, Jl. Zainal Abidin Pagaralam No.1, Bandar Lampung';
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+            
+            window.open(googleMapsUrl, '_blank');
+        }
+
+        function openLiveStream() {
+            alert('Live streaming akan segera tersedia. Silakan cek kembali closer ke tanggal acara.');
+        }
+
+        function showQR() {
+            alert('QR Code untuk check-in akan tersedia closer ke tanggal acara.');
+        }
+
+        window.addEventListener('load', () => {
+            document.querySelector('#cover .fade-in').classList.add('visible');
+        });
+    </script>
+</body>
+</html>
+
