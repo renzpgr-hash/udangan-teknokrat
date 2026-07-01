@@ -1,4 +1,31 @@
-<!DOCTYPE html>
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                body {
+                  background-color: white; /* Ensure the iframe has a white background */
+                }
+
+                .snap-section-auto {
+    overflow: hidden;  /* Mencegah konten bocor ke section lain */
+}
+
+.snap-section-auto {
+    align-items: flex-start;  /* Konten mulai dari atas, tidak terpotong */
+}
+
+.snap-section-auto {
+    padding: 5rem 0 4rem 0;  /* Padding atas 5rem agar ada ruang breathing */
+}
+
+
+              </style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -56,16 +83,17 @@
             overflow: hidden;
         }
 
+        /* FIX: Section panjang - overflow hidden agar tidak bocor */
         .snap-section-auto {
             scroll-snap-align: start;
             min-height: 100vh;
             height: auto;
             position: relative;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            overflow: visible;
-            padding: 4rem 0;
+            overflow: hidden;
+            padding: 5rem 0 4rem 0;
         }
 
         .snap-section-last {
@@ -349,7 +377,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(122, 16, 16, 0.3);
             padding: 2rem;
-            margin-bottom: 2rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -902,7 +929,7 @@
             </div>
         </section>
 
-        <!-- EVENT SECTION -->
+        <!-- EVENT SECTION - FIXED: overflow hidden, align-items flex-start -->
         <section class="snap-section-auto">
             <div class="bg-image"></div>
             <div class="bg-overlay"></div>
@@ -946,7 +973,7 @@
             </div>
         </section>
 
-        <!-- RUNDOWN SECTION - BARU -->
+        <!-- RUNDOWN SECTION -->
         <section class="snap-section-auto">
             <div class="bg-image"></div>
             <div class="bg-overlay"></div>
@@ -1324,3 +1351,4 @@
 </body>
 </html>
 
+                    
