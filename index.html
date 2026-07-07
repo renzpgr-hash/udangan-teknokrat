@@ -8,6 +8,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- AOS (Animate On Scroll) Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,11 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -30,13 +30,46 @@
             color: white;
         }
 
-        .font-serif {
-            font-family: 'Cormorant Garamond', serif;
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        .font-script {
-            font-family: 'Great Vibes', cursive;
+        body.loaded .loading-overlay {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(122, 16, 16, 0.3);
+            border-top-color: #FFD700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-family: 'Cormorant Garamond', serif;
+            color: #FFD700;
+            letter-spacing: 0.2em;
+            font-size: 0.9rem;
+        }
+
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .font-script { font-family: 'Great Vibes', cursive; }
 
         /* Scroll Snap Container */
         .snap-container {
@@ -80,7 +113,6 @@
             padding: 4rem 0;
         }
 
-        /* BACKGROUND IMAGES - BERBEDA PER SECTION */
         .bg-image {
             position: absolute;
             inset: 0;
@@ -91,34 +123,13 @@
             transition: transform 0.5s ease-out;
         }
 
-        /* Gambar berbeda untuk setiap section */
-        .bg-cover {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1ddf99c8f-bbd3-43fb-9e58-61186039752b.png');
-        }
-
-        .bg-sambutan {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1b01aa8a9-130f-4624-b01c-0dfa120caed6.png');
-        }
-
-        .bg-quote {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/134957edf-f227-4ae8-8108-32682a612527.png');
-        }
-
-        .bg-countdown {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1e846ce71-9c6b-46e7-acd2-e200c3649143.png');
-        }
-
-        .bg-acara {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/19b40ebc9-ef9c-48c0-9ade-18257cbbc2d1.png');
-        }
-
-        .bg-rundown {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/113f824e2-2027-4a3e-af39-1df2286c4d02.png');
-        }
-
-        .bg-live {
-            background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1a86b6ccf-dae5-446d-a4da-2dc286404178.png');
-        }
+        .bg-cover { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1ddf99c8f-bbd3-43fb-9e58-61186039752b.png'); }
+        .bg-sambutan { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1b01aa8a9-130f-4624-b01c-0dfa120caed6.png'); }
+        .bg-quote { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/134957edf-f227-4ae8-8108-32682a612527.png'); }
+        .bg-countdown { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1e846ce71-9c6b-46e7-acd2-e200c3649143.png'); }
+        .bg-acara { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/19b40ebc9-ef9c-48c0-9ade-18257cbbc2d1.png'); }
+        .bg-rundown { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/113f824e2-2027-4a3e-af39-1df2286c4d02.png'); }
+        .bg-live { background-image: url('https://image.qwenlm.ai/public_source/d09c39e1-52f5-4a55-b862-423e0e98b4a1/1a86b6ccf-dae5-446d-a4da-2dc286404178.png'); }
 
         .bg-overlay {
             position: absolute;
@@ -168,10 +179,7 @@
             transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         .stagger-item {
             opacity: 0;
@@ -179,10 +187,7 @@
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        .stagger-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .stagger-item.visible { opacity: 1; transform: translateY(0); }
 
         .shimmer-text {
             position: relative;
@@ -221,6 +226,8 @@
             overflow: hidden;
             z-index: 1;
             animation: pulse-glow 2.5s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
         }
 
         .open-btn::before {
@@ -269,27 +276,18 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .sambutan-card::before {
+        .sambutan-card::before, .sambutan-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg, 
                 transparent, rgba(122, 16, 16, 0.8), rgba(255, 215, 0, 0.8), rgba(122, 16, 16, 0.8), transparent);
             background-size: 200% 100%;
             animation: gradient-slide 3s linear infinite;
         }
-
-        .sambutan-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent, rgba(122, 16, 16, 0.8), rgba(255, 215, 0, 0.8), rgba(122, 16, 16, 0.8), transparent);
-            background-size: 200% 100%;
-            animation: gradient-slide 3s linear infinite;
-        }
+        .sambutan-card::before { top: 0; }
+        .sambutan-card::after { bottom: 0; }
 
         .sambutan-card:hover {
             border-color: rgba(255, 215, 0, 0.5);
@@ -302,11 +300,7 @@
             100% { background-position: 200% 50%; }
         }
 
-        .envelope-icon {
-            display: inline-block;
-            animation: envelope-float 3s ease-in-out infinite;
-        }
-
+        .envelope-icon { display: inline-block; animation: envelope-float 3s ease-in-out infinite; }
         @keyframes envelope-float {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-10px) rotate(5deg); }
@@ -347,27 +341,20 @@
         }
 
         .countdown-box:hover::after { left: 100%; }
-
         .countdown-box:hover {
             transform: translateY(-5px);
             border-color: rgba(255, 215, 0, 0.6);
             box-shadow: 0 10px 25px rgba(122, 16, 16, 0.3);
         }
 
-        .countdown-box .text-2xl,
-        .countdown-box .text-3xl {
+        .countdown-box .text-2xl, .countdown-box .text-3xl {
             color: #FFD700;
             transition: transform 0.3s ease;
         }
 
-        .countdown-box:hover .text-2xl,
-        .countdown-box:hover .text-3xl { transform: scale(1.1); }
+        .countdown-box:hover .text-2xl, .countdown-box:hover .text-3xl { transform: scale(1.1); }
 
-        .countdown-flip {
-            display: inline-block;
-            animation: flip-in 0.6s ease-out;
-        }
-
+        .countdown-flip { display: inline-block; animation: flip-in 0.6s ease-out; }
         @keyframes flip-in {
             0% { transform: rotateX(90deg); opacity: 0; }
             100% { transform: rotateX(0deg); opacity: 1; }
@@ -395,7 +382,6 @@
         }
 
         .event-card:hover::before { transform: scaleX(1); }
-
         .event-card:hover {
             transform: translateY(-8px);
             border-color: rgba(255, 215, 0, 0.4);
@@ -410,8 +396,7 @@
             margin: 1.5rem 0;
         }
 
-        .date-display .month,
-        .date-display .year {
+        .date-display .month, .date-display .year {
             font-size: 0.875rem;
             font-weight: 300;
             letter-spacing: 0.1em;
@@ -459,6 +444,8 @@
             margin: 0.25rem;
             overflow: hidden;
             z-index: 1;
+            border: none;
+            cursor: pointer;
         }
 
         .action-btn::before {
@@ -511,7 +498,6 @@
         }
 
         .back-to-top.visible { opacity: 1; pointer-events: auto; }
-
         .back-to-top:hover {
             background: rgba(122, 16, 16, 0.4);
             border-color: #FFD700;
@@ -520,7 +506,6 @@
         }
 
         .back-to-top i { animation: bounce-arrow 2s ease-in-out infinite; }
-
         @keyframes bounce-arrow {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-3px); }
@@ -554,12 +539,10 @@
 
         .music-btn.playing { animation: pulse 2s infinite; }
         .music-btn.playing i { animation: music-bounce 1s ease-in-out infinite; }
-
         @keyframes music-bounce {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
         }
-
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(122, 16, 16, 0); }
@@ -573,7 +556,6 @@
             border: 1px solid rgba(122, 16, 16, 0.4);
             transition: all 0.5s ease;
         }
-
         .logo-circle:hover {
             transform: rotate(360deg) scale(1.1);
             border-color: rgba(255, 215, 0, 0.6);
@@ -600,7 +582,6 @@
             color: rgba(255, 215, 0, 0.85);
             animation: fade-glow 3s ease-in-out infinite;
         }
-
         @keyframes fade-glow {
             0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
             50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(122, 16, 16, 0.4); }
@@ -648,16 +629,8 @@
             text-transform: uppercase;
         }
 
-        .rundown-table-wrapper {
-            overflow-x: auto;
-            border-radius: 0.5rem;
-        }
-
-        .rundown-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 500px;
-        }
+        .rundown-table-wrapper { overflow-x: auto; border-radius: 0.5rem; }
+        .rundown-table { width: 100%; border-collapse: collapse; min-width: 500px; }
 
         .rundown-table thead th {
             background: rgba(122, 16, 16, 0.4);
@@ -670,28 +643,15 @@
             border-bottom: 2px solid rgba(255, 215, 0, 0.3);
             text-align: left;
         }
-
-        .rundown-table thead th:first-child {
-            border-radius: 0.5rem 0 0 0;
-            text-align: center;
-        }
-
-        .rundown-table thead th:last-child {
-            border-radius: 0 0.5rem 0 0;
-        }
+        .rundown-table thead th:first-child { border-radius: 0.5rem 0 0 0; text-align: center; }
+        .rundown-table thead th:last-child { border-radius: 0 0.5rem 0 0; }
 
         .rundown-table tbody tr {
             transition: all 0.3s ease;
             border-bottom: 1px solid rgba(122, 16, 16, 0.2);
         }
-
-        .rundown-table tbody tr:hover {
-            background: rgba(122, 16, 16, 0.2);
-        }
-
-        .rundown-table tbody tr:last-child {
-            border-bottom: none;
-        }
+        .rundown-table tbody tr:hover { background: rgba(122, 16, 16, 0.2); }
+        .rundown-table tbody tr:last-child { border-bottom: none; }
 
         .rundown-table tbody td {
             padding: 0.75rem 0.5rem;
@@ -699,13 +659,11 @@
             color: rgba(255, 255, 255, 0.9);
             vertical-align: top;
         }
-
         .rundown-table tbody td:first-child {
             text-align: center;
             color: rgba(255, 215, 0, 0.9);
             font-weight: 600;
         }
-
         .rundown-table tbody td:nth-child(2) {
             white-space: nowrap;
             font-family: 'Cormorant Garamond', serif;
@@ -713,19 +671,13 @@
             color: rgba(255, 215, 0, 0.85);
             font-weight: 500;
         }
-
         .rundown-table tbody td:nth-child(3) {
             text-align: center;
             color: rgba(255, 215, 0, 0.7);
             font-size: 0.8rem;
         }
 
-        .rundown-list {
-            text-align: left;
-            padding: 0;
-            list-style: none;
-        }
-
+        .rundown-list { text-align: left; padding: 0; list-style: none; }
         .rundown-list li {
             padding: 0.75rem 0;
             padding-left: 2rem;
@@ -735,16 +687,8 @@
             border-bottom: 1px solid rgba(122, 16, 16, 0.15);
             transition: all 0.3s ease;
         }
-
-        .rundown-list li:hover {
-            padding-left: 2.5rem;
-            color: #FFD700;
-        }
-
-        .rundown-list li:last-child {
-            border-bottom: none;
-        }
-
+        .rundown-list li:hover { padding-left: 2.5rem; color: #FFD700; }
+        .rundown-list li:last-child { border-bottom: none; }
         .rundown-list li::before {
             content: '';
             position: absolute;
@@ -757,11 +701,7 @@
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
-
-        .rundown-list li em {
-            color: rgba(255, 215, 0, 0.7);
-            font-style: italic;
-        }
+        .rundown-list li em { color: rgba(255, 215, 0, 0.7); font-style: italic; }
 
         /* RESPONSIVE */
         @media (max-width: 640px) {
@@ -786,6 +726,12 @@
 </head>
 <body>
 
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">MEMUAT UNDANGAN...</div>
+    </div>
+
     <!-- Audio Element -->
     <audio id="bg-music" loop>
         <source src="Gaudeamus Igitur Instrumental.mp3" type="audio/mp3">
@@ -804,7 +750,7 @@
     <!-- Main Container -->
     <div class="snap-container" id="mainContainer">
 
-        <!-- COVER SECTION - Gambar: Toga di atas velvet maroon -->
+        <!-- COVER SECTION -->
         <section class="snap-section" id="cover">
             <div class="bg-image bg-cover" style="opacity: 0.4;"></div>
             <div class="bg-overlay"></div>
@@ -816,8 +762,11 @@
                 <p class="stagger-item text-lg font-light mb-8" style="color: rgba(255, 215, 0, 0.85);">Periode 2026</p>
                 
                 <div class="stagger-item mb-8">
-                    <p class="text-sm opacity-60 mb-2">Kepada Yth.</p>
-                    <p class="font-serif text-3xl md:text-4xl font-semibold" id="guestNameCover">Bapak/Ibu/Saudara/i</p>
+                    <p class="text-sm opacity-60 mb-2" id="guest-sapaan">Kepada Yth.</p>
+                    <p class="font-serif text-3xl md:text-4xl font-semibold text-yellow-500" id="guest-name">
+                        Bapak/Ibu/Saudara/i
+                    </p>
+                    <p class="text-xs opacity-60 mt-1" id="guest-gelar"></p>
                 </div>
 
                 <button onclick="openInvitation()" class="open-btn stagger-item">
@@ -827,7 +776,7 @@
             </div>
         </section>
 
-        <!-- SAMBUTAN SECTION - Gambar: Gedung Kampus -->
+        <!-- SAMBUTAN SECTION -->
         <section class="snap-section">
             <div class="bg-image bg-sambutan"></div>
             <div class="bg-overlay"></div>
@@ -840,10 +789,10 @@
                     </div>
                     
                     <p class="stagger-item text-sm font-light tracking-widest mb-3 opacity-70" style="color: rgba(255, 215, 0, 0.8);">
-                        <i class="fas fa-user-circle mr-2"></i>Kepada Yth.
+                        <i class="fas fa-user-circle mr-2"></i><span id="sambutan-sapaan">Kepada Yth.</span>
                     </p>
                     
-                    <h2 class="stagger-item guest-name-display mb-6" id="guestNameSambutan">
+                    <h2 class="stagger-item guest-name-display mb-6" id="sambutan-nama">
                         Bapak/Ibu/Saudara/i
                     </h2>
                     
@@ -867,7 +816,7 @@
             </div>
         </section>
 
-        <!-- QUOTE SECTION - Gambar: Buku Perpustakaan -->
+        <!-- QUOTE SECTION -->
         <section class="snap-section">
             <div class="bg-image bg-quote"></div>
             <div class="bg-overlay"></div>
@@ -879,9 +828,7 @@
                          alt="Logo" class="h-16 w-auto">
                 </div>
                 
-                <p class="stagger-item arabic-text mb-4">
-                    وَقُلْ رَبِّ زِدْنِي عِلْمًا
-                </p>
+                <p class="stagger-item arabic-text mb-4">وَقُلْ رَبِّ زِدْنِي عِلْمًا</p>
                 
                 <p class="stagger-item text-lg font-light italic mb-2 opacity-85">
                     "Dan katakanlah: Ya Tuhanku, tambahkanlah kepadaku ilmu pengetahuan."
@@ -893,7 +840,7 @@
             </div>
         </section>
 
-        <!-- COUNTDOWN SECTION - Gambar: Wisudawan Lempar Toga -->
+        <!-- COUNTDOWN SECTION -->
         <section class="snap-section">
             <div class="bg-image bg-countdown"></div>
             <div class="bg-overlay"></div>
@@ -930,7 +877,7 @@
             </div>
         </section>
 
-        <!-- EVENT SECTION - Gambar: Orang di Podium -->
+        <!-- EVENT SECTION -->
         <section class="snap-section-auto">
             <div class="bg-image bg-acara"></div>
             <div class="bg-overlay"></div>
@@ -974,7 +921,7 @@
             </div>
         </section>
 
-        <!-- RUNDOWN SECTION - Gambar: MC dengan Clipboard -->
+        <!-- RUNDOWN SECTION -->
         <section class="snap-section-auto">
             <div class="bg-image bg-rundown"></div>
             <div class="bg-overlay"></div>
@@ -984,12 +931,8 @@
                 <h2 class="stagger-item font-serif text-4xl md:text-5xl font-semibold mb-2 shimmer-text">Rundown Acara</h2>
                 <p class="stagger-item text-sm font-light opacity-70 mb-8">Susunan acara wisuda periode 2026</p>
 
-                <!-- SESI I: PEMBUKAAN -->
                 <div class="stagger-item rundown-card">
-                    <h3 class="session-title">
-                        <i class="fas fa-door-open mr-2"></i>Sesi I : Pembukaan
-                    </h3>
-                    
+                    <h3 class="session-title"><i class="fas fa-door-open mr-2"></i>Sesi I : Pembukaan</h3>
                     <div class="rundown-table-wrapper">
                         <table class="rundown-table">
                             <thead>
@@ -1001,95 +944,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>08.00 – 08.55</td>
-                                    <td>5'</td>
-                                    <td>Senat Akademik dan Tamu Kehormatan memasuki ruangan acara</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>08.55 – 09.00</td>
-                                    <td>5'</td>
-                                    <td>Pembukaan</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>09.00 – 09.10</td>
-                                    <td>10'</td>
-                                    <td>Menyanyikan Lagu Indonesia Raya<br>Mengheningkan Cipta<br>Hymne Teknokrat</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>09.10 – 09.15</td>
-                                    <td>5'</td>
-                                    <td>Tari Ngunten</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>09.15 – 09.20</td>
-                                    <td>5'</td>
-                                    <td>Do'a</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>09.20 – 09.40</td>
-                                    <td>20'</td>
-                                    <td>Pembukaan Rapat Senat Terbuka Luar Biasa<br>Laporan Rektor Universitas Teknokrat Indonesia</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>09.40 – 09.50</td>
-                                    <td>10'</td>
-                                    <td>Sambutan Ketua Yayasan Pendidikan Teknokrat</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>09.50 – 10.00</td>
-                                    <td>10'</td>
-                                    <td>Sambutan Kepala LLDIKTI Wilayah II</td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>10.00 – 10.10</td>
-                                    <td>10'</td>
-                                    <td>Sambutan PJ Gubernur Lampung</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>10.10 – 10.20</td>
-                                    <td>10'</td>
-                                    <td>Pengukuhan Lulusan Terbaik dan Wisudawan Teladan oleh Rektor</td>
-                                </tr>
-                                <tr>
-                                    <td>11</td>
-                                    <td>10.20 – 10.30</td>
-                                    <td>10'</td>
-                                    <td>Penyerahan Penghargaan kepada Lulusan Terbaik dan Wisudawan Teladan oleh PJ Gubernur Lampung didampingi Kepala LLDIKTI Wilayah II dan Rektor</td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td>10.30 – 10.45</td>
-                                    <td>15'</td>
-                                    <td>Persembahan Lagu dan Tari Kreasi Daerah</td>
-                                </tr>
-                                <tr>
-                                    <td>13</td>
-                                    <td>10.45 – 10.50</td>
-                                    <td>5'</td>
-                                    <td>Tamu Kehormatan Meninggalkan Ruang Acara</td>
-                                </tr>
+                                <tr><td>1</td><td>08.00 – 08.55</td><td>5'</td><td>Senat Akademik dan Tamu Kehormatan memasuki ruangan acara</td></tr>
+                                <tr><td>2</td><td>08.55 – 09.00</td><td>5'</td><td>Pembukaan</td></tr>
+                                <tr><td>3</td><td>09.00 – 09.10</td><td>10'</td><td>Menyanyikan Lagu Indonesia Raya<br>Mengheningkan Cipta<br>Hymne Teknokrat</td></tr>
+                                <tr><td>4</td><td>09.10 – 09.15</td><td>5'</td><td>Tari Ngunten</td></tr>
+                                <tr><td>5</td><td>09.15 – 09.20</td><td>5'</td><td>Do'a</td></tr>
+                                <tr><td>6</td><td>09.20 – 09.40</td><td>20'</td><td>Pembukaan Rapat Senat Terbuka Luar Biasa<br>Laporan Rektor Universitas Teknokrat Indonesia</td></tr>
+                                <tr><td>7</td><td>09.40 – 09.50</td><td>10'</td><td>Sambutan Ketua Yayasan Pendidikan Teknokrat</td></tr>
+                                <tr><td>8</td><td>09.50 – 10.00</td><td>10'</td><td>Sambutan Kepala LLDIKTI Wilayah II</td></tr>
+                                <tr><td>9</td><td>10.00 – 10.10</td><td>10'</td><td>Sambutan PJ Gubernur Lampung</td></tr>
+                                <tr><td>10</td><td>10.10 – 10.20</td><td>10'</td><td>Pengukuhan Lulusan Terbaik dan Wisudawan Teladan oleh Rektor</td></tr>
+                                <tr><td>11</td><td>10.20 – 10.30</td><td>10'</td><td>Penyerahan Penghargaan kepada Lulusan Terbaik dan Wisudawan Teladan oleh PJ Gubernur Lampung didampingi Kepala LLDIKTI Wilayah II dan Rektor</td></tr>
+                                <tr><td>12</td><td>10.30 – 10.45</td><td>15'</td><td>Persembahan Lagu dan Tari Kreasi Daerah</td></tr>
+                                <tr><td>13</td><td>10.45 – 10.50</td><td>5'</td><td>Tamu Kehormatan Meninggalkan Ruang Acara</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- SESI II: PENGUKUHAN -->
                 <div class="stagger-item rundown-card">
-                    <h3 class="session-title">
-                        <i class="fas fa-award mr-2"></i>Sesi II : Pengukuhan
-                    </h3>
-                    
+                    <h3 class="session-title"><i class="fas fa-award mr-2"></i>Sesi II : Pengukuhan</h3>
                     <ul class="rundown-list">
                         <li>Sambutan Ketua Forum Rektor Indonesia <em>(online)</em></li>
                         <li>Orasi Ilmiah</li>
@@ -1098,12 +972,8 @@
                     </ul>
                 </div>
 
-                <!-- SESI III: PENUTUPAN -->
                 <div class="stagger-item rundown-card">
-                    <h3 class="session-title">
-                        <i class="fas fa-flag-checkered mr-2"></i>Sesi III : Penutupan
-                    </h3>
-                    
+                    <h3 class="session-title"><i class="fas fa-flag-checkered mr-2"></i>Sesi III : Penutupan</h3>
                     <ul class="rundown-list">
                         <li>Penutupan Rapat Senat Luar Biasa Universitas Teknokrat Indonesia</li>
                         <li>Prosesi Meninggalkan Ruang Upacara</li>
@@ -1112,7 +982,7 @@
             </div>
         </section>
 
-        <!-- LIVE STREAMING SECTION - Gambar: Kamera Studio -->
+        <!-- LIVE STREAMING SECTION -->
         <section class="snap-section-last">
             <div class="bg-image bg-live"></div>
             <div class="bg-overlay"></div>
@@ -1139,13 +1009,125 @@
 
     </div>
 
+    <!-- ========================================== -->
+    <!-- KONFIGURASI API -->
+    <!-- ========================================== -->
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const guestName = urlParams.get('to') || 'Bapak/Ibu/Saudara/i';
-        
-        document.getElementById('guestNameCover').textContent = guestName;
-        document.getElementById('guestNameSambutan').textContent = guestName;
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxdiEHcfuYqUGtAV58c3rUOANyH5enLmojcKx7R8dPzoMw6wm9E1X2f9m7_mLsY7TjwFg/exec'; // Ganti dengan URL Google Apps Script Anda
 
+        // ==========================================
+        // LOGIC LOAD DATA TAMU DINAMIS
+        // ==========================================
+        async function loadGuestData() {
+            const params = new URLSearchParams(window.location.search);
+            const guestId = params.get('id');
+
+            const nameEl = document.getElementById('guest-name');
+            const gelarEl = document.getElementById('guest-gelar');
+            const sapaanEl = document.getElementById('guest-sapaan');
+
+            // 1. Cek LocalStorage Cache dulu (Instant load!)
+            if (guestId) {
+                const cached = localStorage.getItem(`guest_${guestId}`);
+                if (cached) {
+                    updateUI(JSON.parse(cached));
+                    finishLoading();
+                    return;
+                }
+            }
+
+            // 2. Fallback jika tidak ada ID
+            if (!guestId) {
+                nameEl.innerText = "Bapak/Ibu/Saudara/i";
+                gelarEl.innerText = "";
+                sapaanEl.innerText = "Kepada Yth.";
+                finishLoading();
+                return;
+            }
+
+            // 3. Fetch dari Google Apps Script
+            try {
+                const response = await fetch(`${GAS_API_URL}?id=${encodeURIComponent(guestId)}`);
+                const data = await response.json();
+
+                if (data.error || !data.nama_lengkap) {
+                    nameEl.innerText = "Tamu Undangan";
+                    gelarEl.innerText = "";
+                } else {
+                    localStorage.setItem(`guest_${guestId}`, JSON.stringify(data));
+                    updateUI(data);
+                }
+            } catch (err) {
+                console.error("Gagal memuat data:", err);
+                nameEl.innerText = "Bapak/Ibu/Saudara/i";
+            } finally {
+                finishLoading();
+            }
+        }
+
+        function updateUI(data) {
+            const nameEl = document.getElementById('guest-name');
+
+            const fullDisplayName = data.gelar
+                ? `${data.nama_lengkap}, ${data.gelar}`
+                : data.nama_lengkap;
+
+            nameEl.innerText = fullDisplayName;
+            document.getElementById('guest-gelar').innerText = '';
+
+            // Responsive font scaling
+            nameEl.classList.remove('text-2xl', 'md:text-3xl', 'text-lg', 'sm:text-xl', 'md:text-2xl');
+
+            if (fullDisplayName.length > 45) {
+                nameEl.classList.add('text-lg', 'sm:text-xl', 'md:text-2xl');
+            } else if (fullDisplayName.length > 30) {
+                nameEl.classList.add('text-xl', 'sm:text-2xl', 'md:text-3xl');
+            } else {
+                nameEl.classList.add('text-2xl', 'md:text-3xl');
+            }
+
+            // Personalisasi Sapaan
+            const rel = data.hubungan?.toLowerCase() || '';
+            const gender = data.jenis_kelamin?.toUpperCase().trim();
+
+            let sapaanCover = "Yth. Saudara/i";
+            let sapaanSambutan = "Yth. Bapak/Ibu/Saudara/i";
+
+            if (gender === 'L') {
+                sapaanCover = "Yth. Bapak";
+                sapaanSambutan = "Yth. Bapak";
+            } else if (gender === 'P') {
+                sapaanCover = "Yth. Ibu";
+                sapaanSambutan = "Yth. Ibu";
+            } else {
+                if (rel.includes('orang tua') || rel.includes('ayah') || rel.includes('ibu')) {
+                    sapaanCover = "Yth. Bapak/Ibu";
+                    sapaanSambutan = "Yth. Bapak/Ibu";
+                } else if (rel.includes('dosen') || rel.includes('rektor') || rel.includes('kaprodi')) {
+                    sapaanCover = "Yth. Bapak/Ibu Dosen";
+                    sapaanSambutan = "Yth. Bapak/Ibu Dosen";
+                }
+            }
+
+            document.getElementById('guest-sapaan').innerText = sapaanCover;
+            document.getElementById('sambutan-sapaan').innerText = sapaanSambutan;
+            document.getElementById('sambutan-nama').innerText = fullDisplayName;
+        }
+
+        function finishLoading() {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({ once: true, offset: 100, duration: 1000 });
+                }
+            }, 800);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadGuestData);
+
+        // ==========================================
+        // MAIN APP LOGIC
+        // ==========================================
         const audio = document.getElementById('bg-music');
         const musicBtn = document.getElementById('musicBtn');
         const musicIcon = document.getElementById('musicIcon');
@@ -1193,20 +1175,15 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
                     const staggerItems = entry.target.querySelectorAll('.stagger-item');
                     staggerItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.classList.add('visible');
-                        }, index * 200);
+                        setTimeout(() => item.classList.add('visible'), index * 200);
                     });
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         const container = document.getElementById('mainContainer');
         const backToTop = document.getElementById('backToTop');
@@ -1217,6 +1194,17 @@
             } else {
                 backToTop.classList.remove('visible');
             }
+
+            // Parallax background
+            const sections = container.querySelectorAll('.snap-section, .snap-section-auto, .snap-section-last');
+            sections.forEach(section => {
+                const bgImage = section.querySelector('.bg-image');
+                if (bgImage) {
+                    const rect = section.getBoundingClientRect();
+                    const scrollPercent = rect.top / window.innerHeight;
+                    bgImage.style.transform = `translateY(${scrollPercent * 30}px) scale(1.1)`;
+                }
+            });
         });
 
         function scrollToTop() {
@@ -1275,16 +1263,13 @@
                 end: '20260730T120000',
                 location: 'Auditorium Utama, Universitas Teknokrat Indonesia'
             };
-
             const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start}/${event.end}&location=${encodeURIComponent(event.location)}`;
-            
             window.open(googleCalendarUrl, '_blank');
         }
 
         function openMap() {
             const address = 'Universitas Teknokrat Indonesia, Jl. Zainal Abidin Pagaralam No.1, Bandar Lampung';
             const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-            
             window.open(googleMapsUrl, '_blank');
         }
 
@@ -1295,22 +1280,18 @@
         function createParticles(containerId, count = 15) {
             const container = document.getElementById(containerId);
             if (!container) return;
-
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                
                 const size = Math.random() * 6 + 2;
                 const left = Math.random() * 100;
                 const duration = Math.random() * 10 + 10;
                 const delay = Math.random() * 10;
-                
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${left}%`;
                 particle.style.animationDuration = `${duration}s`;
                 particle.style.animationDelay = `${delay}s`;
-                
                 container.appendChild(particle);
             }
         }
@@ -1327,28 +1308,12 @@
             const coverFadeIn = document.querySelector('#cover .fade-in');
             if (coverFadeIn) {
                 coverFadeIn.classList.add('visible');
-                
                 const staggerItems = coverFadeIn.querySelectorAll('.stagger-item');
                 staggerItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.add('visible');
-                    }, 300 + (index * 200));
+                    setTimeout(() => item.classList.add('visible'), 300 + (index * 200));
                 });
             }
-        });
-
-        container.addEventListener('scroll', () => {
-            const sections = container.querySelectorAll('.snap-section, .snap-section-auto, .snap-section-last');
-            sections.forEach(section => {
-                const bgImage = section.querySelector('.bg-image');
-                if (bgImage) {
-                    const rect = section.getBoundingClientRect();
-                    const scrollPercent = rect.top / window.innerHeight;
-                    bgImage.style.transform = `translateY(${scrollPercent * 30}px) scale(1.1)`;
-                }
-            });
         });
     </script>
 </body>
 </html>
-
